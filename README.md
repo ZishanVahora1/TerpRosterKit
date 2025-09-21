@@ -28,8 +28,8 @@ Network access to your Azure SQL server(s)
 ## ⚙️ Configuration
 
 azure_helper.py contains a db_list mapping with connection profiles like:
-
-db_list = {
+ ```bash
+ db_list = {
   "spfdata": {
     "server": "icaumd.database.windows.net",
     "database": "spfdata",
@@ -45,12 +45,10 @@ db_list = {
       "logging": "[dbo].[Logging]",
       "external_calls": "[dbo].[ExternalCalls]"
     }
-  }
-}
-
-
+  } 
+```
 Replace EXAMPLEUSER / EXAMPLEPASSWORD with real credentials outside of source control (e.g., environment variables).
-
+  
 Hostnames like icaumd.database.windows.net are safe to publish; credentials are not.
 
 ## 🚀 Quick Start
@@ -66,7 +64,8 @@ finally:
     close_connection(conn)
 
 # 2) Insert multiple rows into a table
-from azure_helper import insert_table_batch, get_db, establish_connection, close_connection
+
+```from azure_helper import insert_table_batch, get_db, establish_connection, close_connection
 
 login = get_db("catapult_wfh")
 conn = establish_connection(login)
@@ -78,17 +77,19 @@ try:
     insert_table_batch(conn, login["tables"]["activities"], rows)
 finally:
     close_connection(conn)
+```
 
 # 3) Load the active roster CSV
-from roster_helper import activeDict
+```from roster_helper import activeDict
 
 roster = activeDict("path/to/Student_Athlete_Active_Roster.csv")
 print("Loaded", len(roster), "rows")
 print(roster.get("116230728"))
-
+```
 # 4) Compare names (normalized)
+```
 from name_validator import name_validator
 print(name_validator("Robert", "Smith Jr.", "robert", "smith"))  # True
 
-
+```
 
